@@ -1,0 +1,10 @@
+[project]
+name = "dbt-playground"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "dbt-bigquery>=1.9.1",
+    "pandas>=2.2.3",
+]

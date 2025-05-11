@@ -1,0 +1,48 @@
+---
+
+bigquery:
+  target: dev
+  outputs:
+    dev:
+      dataset: playground_pydata
+      job_execution_timeout_seconds: 100
+      job_retries: 1
+      location: EU
+      method: oauth
+      priority: interactive
+      project: 'playground-459513'
+      threads: 3
+      type: bigquery
+    pp:
+      dataset: playground_pydata
+      job_execution_timeout_seconds: 100
+      job_retries: 1
+      location: EU
+      method: oauth
+      priority: interactive
+      project: 'playground-pp'
+      threads: 3
+      type: bigquery
+    prod:
+      dataset: playground_pydata
+      job_execution_timeout_seconds: 100
+      job_retries: 1
+      location: EU
+      method: oauth
+      priority: interactive
+      project: 'playground-prod'
+      threads: 3
+      type: bigquery
+
+
+#  outputs:
+#    dev-user:
+#      type: bigquery
+#      method: oauth
+#      project: metro-bi-wb-dasc-price-s00
+#      dataset: "plg_{{ env_var('DBT_DEV_USER', 'default') | lower }}"
+#      timeout_seconds: 1800
+#      location: EU
+#      priority: batch
+#      retries: 0
+#      threads: 4

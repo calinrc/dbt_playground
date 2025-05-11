@@ -1,0 +1,33 @@
+---
+version: 2
+
+sources:
+  - name: marketing_campaign_source_de
+    description: 'DE Marketing campaign'
+    database: 'playground-459513'
+    schema: dbt_whouse
+    loader: LOCAL_LOADER
+    tags: ['source', 'de']
+    tables:
+      - name: mar_camp
+        identifier: marketing_campaign_de
+
+  - name: marketing_campaign_source_fr
+    description: 'FR Marketing campaign'
+    database: 'playground-459513'
+    schema: dbt_whouse
+    loader: LOCAL_LOADER
+    tags: ['source', 'fr']
+    tables:
+      - name: mar_camp
+        identifier: marketing_campaign_fr
+
+  - name: marketing_campaign_source_us
+    description: 'US Marketing campaign'
+    database: 'playground-459513'
+    schema: dbt_whouse
+    loader: LOCAL_LOADER
+    tags: ['source', 'us']
+    tables:
+      - name: mar_camp
+        identifier: marketing_campaign_us
