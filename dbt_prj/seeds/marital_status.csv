@@ -1,0 +1,8 @@
+Marital_Status,Marital_Status_Mapping
+Married,Partner
+Together,Partner
+Absurd,Alone
+Widow,Alone
+YOLO,Alone
+Divorced,Alone
+Single,Alone

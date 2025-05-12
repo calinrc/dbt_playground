@@ -42,3 +42,16 @@ models:
 #    # Config indicated by + and applies to all files under models/example/
 #    example:
 #      +materialized: view
+
+seeds:
+  dbt_prj:
+    +column_types:
+      Marital_Status: string
+      Marital_Status_Mapping: string
+
+    #    +enabled: true
+    #    +schema: "temp"
+#    +column_types:
+#      ID: integer
+
+

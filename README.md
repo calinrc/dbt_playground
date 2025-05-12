@@ -143,8 +143,8 @@ dbt seed --full-refresh
 
 ### Switch to dbt_prj
   - Create model raw folder with data from GCP data warehouse
-     ```yaml
-
+     ```bash
+    cd ../dbt_prj
     ```
   - Create a folder named row
   - create a schema.yaml file
