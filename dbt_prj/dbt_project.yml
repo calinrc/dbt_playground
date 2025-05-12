@@ -23,10 +23,12 @@ clean-targets: # directories to be removed by `dbt clean`
 
 
 vars:
+  id:
   countries:
     - de
     - fr
     - us
+  single_country: us
 
 
 # Configuring models

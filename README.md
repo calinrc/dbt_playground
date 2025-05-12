@@ -51,6 +51,7 @@ uv init
 ```bash
 uv add dbt-bigquery
 uv add pandas
+uv add --group dev sqlfluff yamllint isort black
 #check dependencies
 uv pip list
 ```
@@ -140,8 +141,68 @@ dbt seed --full-refresh
 
 
 
-### Next Steps
-  - Delete Example folder
+### Switch to dbt_prj
+  - Create model raw folder with data from GCP data warehouse
+     ```yaml
+
+    ```
   - Create a folder named row
   - create a schema.yaml file
+
+
+
+### DBT run specifying target
+```bash
+dbt seed --target=prod
+dbt run --full-refresh --target prod
+```
+
+### Use specific parameters for partial execution
+
+```bash
+dbt run --vars '{single_country: fr}'  --select +stg_lambda_transf
+```
+
+
+### Use specific parameters for partial execution and exclude row model
+
+```bash
+dbt run --vars '{single_country: fr}'  --select +stg_lambda_transf --exclude raw
+```
+
+
+### Code Formating Tools
+- [Black Tool](https://github.com/psf/black)
+
+```bash
+   black  ./
+```
+
+### Imports organization Tools
+- [Isort Tool](https://pycqa.github.io/isort/)
+
+```bash
+   isort  ./
+```
+
+### SQL Linter Tools
+- uses `sqlfluff` configured for `dialect: bigquery` and `templater:dbt` to parse the SQL queries
+
+- [SQLFluff Tool](https://github.com/sqlfluff/sqlfluff)
+- [SQL Fluff Documentation](https://docs.sqlfluff.com/en/stable/gettingstarted.html)
+- [SQL Fluff DBT Documentation](https://docs.sqlfluff.com/en/stable/configuration.html#dbt-project-configuration)
+
+```bash
+   sqlfluff fix -vv  ./
+```
+
+### Yaml Linter Tools
+- [Yaml Tool](https://github.com/adrienverge/yamllint)
+
+```bash
+  cd dbt
+  yamllint .github
+```
+
+#### SQL Linter
 

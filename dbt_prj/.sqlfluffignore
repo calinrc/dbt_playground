@@ -1,0 +1,4 @@
+.venv/
+macros/
+target/
+dbt_packages/

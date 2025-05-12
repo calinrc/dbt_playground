@@ -174,3 +174,4 @@ dbt_warehouse/seeds/marketing_campaign_*
 
 # PyPI configuration file
 .pypirc
+/dbt_*/dbt_packages/
