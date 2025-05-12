@@ -8,7 +8,7 @@ logger = logging.getLogger(__file__)
 def params_to_dbt(country:str, execution_id:str) -> str:
     return f"""{{
     id: {execution_id},
-    single_country: {country},
+    country: {country},
     }}"""
 
 def main():

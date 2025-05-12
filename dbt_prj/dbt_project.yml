@@ -28,7 +28,7 @@ vars:
     - de
     - fr
     - us
-  single_country: us
+  country: us
 
 
 # Configuring models

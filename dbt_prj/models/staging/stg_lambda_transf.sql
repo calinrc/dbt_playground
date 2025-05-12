@@ -5,7 +5,7 @@
 
 WITH last_seen_date AS (
     SELECT MAX(Dt_Customer) AS Max_Dt_Customer
-    FROM {{ ref('all_countries_raw_data') }}
+    FROM {{ ref('country_raw_data') }}
 )
 
 
@@ -18,5 +18,5 @@ SELECT
     Kidhome + Teenhome AS Children,
     AcceptedCmp5 + AcceptedCmp4 + AcceptedCmp3 + AcceptedCmp2 + AcceptedCmp1 AS Campaigns
 
-FROM {{ ref('all_countries_raw_data') }} AS acrd
+FROM {{ ref('country_raw_data') }} AS acrd
 CROSS JOIN last_seen_date

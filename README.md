@@ -139,35 +139,92 @@ dbt dbt_warehouse
 dbt seed --full-refresh
 ```
 
-
-
 ### Switch to dbt_prj
   - Create model raw folder with data from GCP data warehouse
      ```bash
     cd ../dbt_prj
     ```
   - Create a folder named row
-  - create a schema.yaml file
+  - create a schema.yaml file to point to "external" datasets
+```yaml
+---
+version: 2
+
+sources:
+  - name: marketing_campaign_source_de
+    description: 'DE Marketing campaign'
+    database: 'playground-459513'
+    schema: dbt_whouse
+    loader: LOCAL_LOADER
+    tags: ['source', 'de']
+    tables:
+      - name: mar_camp
+        identifier: marketing_campaign_de
+
+  - name: marketing_campaign_source_fr
+    description: 'FR Marketing campaign'
+    database: 'playground-459513'
+    schema: dbt_whouse
+    loader: LOCAL_LOADER
+    tags: ['source', 'fr']
+    tables:
+      - name: mar_camp
+        identifier: marketing_campaign_fr
+
+  - name: marketing_campaign_source_us
+    description: 'US Marketing campaign'
+    database: 'playground-459513'
+    schema: dbt_whouse
+    loader: LOCAL_LOADER
+    tags: ['source', 'us']
+    tables:
+      - name: mar_camp
+        identifier: marketing_campaign_us
+```
+- create a row model file `country_raw_data.sql` pointing to data source
+```sql
+{{ config(
+    materialized = 'table',
+) }}
 
 
+SELECT
+    * EXCEPT (Dt_Customer),
+    PARSE_DATE('%d-%m-%Y', Dt_Customer) as Dt_Customer,
+    "{{ var("country") }}" AS Country
+FROM {{ source('marketing_campaign_source_%s' % var("country"), 'mar_camp') }}
+```
+- create a staging transformation using previous generated table
+```sql
+{{ config(
+    materialized = 'table',
+) }}
 
-### DBT run specifying target
+
+SELECT MAX(Dt_Customer) AS Max_Dt_Customer
+FROM {{ ref('country_raw_data') }}
+```
+
+### Switch to a more complex example
+
+### DBT run specifying target (e.g. dev, pp, prod)
+Note: profiles definition reside in `profiles.yaml`
 ```bash
 dbt seed --target=prod
 dbt run --full-refresh --target prod
 ```
 
-### Use specific parameters for partial execution
+### Use specific parameters for partial execution (all ancestors)
 
 ```bash
-dbt run --vars '{single_country: fr}'  --select +stg_lambda_transf
+dbt run --vars '{country: fr}'  --select +stg_lambda_transf
 ```
 
 
-### Use specific parameters for partial execution and exclude row model
+### Use specific parameters for partial execution (all descendants) and exclude row model
 
 ```bash
-dbt run --vars '{single_country: fr}'  --select +stg_lambda_transf --exclude raw
+dbt run --vars '{country: fr}'  --select stg_lambda_transf+ --exclude transform
 ```
 
 
