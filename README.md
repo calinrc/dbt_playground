@@ -194,10 +194,11 @@ SELECT
     "{{ var("country") }}" AS Country
 FROM {{ source('marketing_campaign_source_%s' % var("country"), 'mar_camp') }}
 ```
-- create a staging transformation using previous generated table
+- create a staging transformation using previous generated table `country_raw_data`
+- change materialization  to view 
 ```sql
 {{ config(
-    materialized = 'table',
+    materialized = 'view',
 ) }}
 
 
@@ -221,10 +222,17 @@ dbt run --vars '{country: fr}'  --select +stg_lambda_transf
 ```
 
 
-### Use specific parameters for partial execution (all descendants) and exclude row model
+### Use specific parameters for partial execution (all descendants - check DBT Graph operators) and exclude row model
 
 ```bash
 dbt run --vars '{country: fr}'  --select stg_lambda_transf+ --exclude transform
+```
+
+### Generate documentation
+```bash
+
+dbt docs generate --vars '{country: fr}'
+dbt docs serve --vars '{country: fr}'
 ```
 
 

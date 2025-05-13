@@ -1,8 +1,6 @@
 {{ config(
-    materialized = 'table',
+    materialized = 'view',
 ) }}
-
-
 
 SELECT
     slt.*,
