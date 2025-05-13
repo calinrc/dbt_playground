@@ -269,5 +269,10 @@ dbt docs serve --vars '{country: fr}'
   yamllint .github
 ```
 
-#### SQL Linter
+
+## Data Sources
+
+- https://www.kaggle.com/code/karnikakapoor/customer-segmentation-clustering/data
+- https://www.kaggle.com/code/karnikakapoor/customer-segmentation-clustering/notebook
+- https://thecleverprogrammer.com/2021/02/08/customer-personality-analysis-with-python/
 
