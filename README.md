@@ -74,7 +74,7 @@ dbt init
   # database used -> bigquery -> 1
   # authentication -> outsh -> 1
   # GCP Project -> playground-123
-  # dataset ->  playground_pydata
+  # dataset ->  playground_dbt
   # threads -> 1 (default)
   # job_execution_timeout_seconds -> 300 (default)
   # location -> EU
@@ -135,7 +135,7 @@ seeds:
 - Upload cvs file in BigQuery dataset using `dbt seeds` command
 
 ```bash
-dbt dbt_warehouse
+cd dbt_warehouse
 dbt seed --full-refresh
 ```
 
@@ -144,7 +144,7 @@ dbt seed --full-refresh
      ```bash
     cd ../dbt_prj
     ```
-  - Create a folder named row
+  - Create a folder named raw
   - create a schema.yaml file to point to "external" datasets
 ```yaml
 ---
@@ -181,7 +181,7 @@ sources:
       - name: mar_camp
         identifier: marketing_campaign_us
 ```
-- create a row model file `country_raw_data.sql` pointing to data source
+- create a raw model file `country_raw_data.sql` pointing to data source
 ```sql
 {{ config(
     materialized = 'table',
@@ -194,7 +194,7 @@ SELECT
     "{{ var("country") }}" AS Country
 FROM {{ source('marketing_campaign_source_%s' % var("country"), 'mar_camp') }}
 ```
-- create a staging transformation using previous generated table `country_raw_data`
+- create a staging transformation using previous generated table `country_raw_data` in `model/staging/stg_lambda_transf.sql` file
 - change materialization  to view 
 ```sql
 {{ config(
@@ -211,18 +211,32 @@ FROM {{ ref('country_raw_data') }}
 ### DBT run specifying target (e.g. dev, pp, prod)
 Note: profiles definition reside in `profiles.yaml`
 ```bash
-dbt seed --target=prod
-dbt run --full-refresh --target prod
+dbt seed --target=dev
+dbt run --full-refresh --target dev
 ```
 
 ### Use specific parameters for partial execution (all ancestors)
 
 ```bash
+dbt seed --target=dev
 dbt run --vars '{country: fr}'  --select +stg_lambda_transf
 ```
 
 
-### Use specific parameters for partial execution (all descendants - check DBT Graph operators) and exclude row model
+### Customize tables names based on input `country` parameter
+
+#### Delete the `playground_dbt` dataset
+#### Run
+
+```bash
+ cp ../macros/generate_alias_name.sql ./macros/
+ dbt seed --target=dev
+ dbt run --full-refresh --target dev --select +agg_info
+```
+
+
+
+### Use specific parameters for partial execution (all descendants - check DBT Graph operators) and exclude raw model
 
 ```bash
 dbt run --vars '{country: fr}'  --select stg_lambda_transf+ --exclude transform

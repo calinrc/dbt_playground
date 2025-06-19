@@ -4,7 +4,7 @@ bigquery:
   target: dev
   outputs:
     dev:
-      dataset: playground_pydata
+      dataset: playground_dbt
       job_execution_timeout_seconds: 100
       job_retries: 1
       location: EU
@@ -14,7 +14,7 @@ bigquery:
       threads: 3
       type: bigquery
     pp:
-      dataset: playground_pydata
+      dataset: playground_dbt
       job_execution_timeout_seconds: 100
       job_retries: 1
       location: EU
@@ -24,7 +24,7 @@ bigquery:
       threads: 3
       type: bigquery
     prod:
-      dataset: playground_pydata
+      dataset: playground_dbt
       job_execution_timeout_seconds: 100
       job_retries: 1
       location: EU
